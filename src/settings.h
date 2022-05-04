@@ -50,8 +50,8 @@
     //#define IR_CONTROL_ENABLE             // Enables remote control (https://forum.espuino.de/t/neues-feature-fernsteuerung-per-infrarot-fernbedienung/265)
     #define CACHED_PLAYLIST_ENABLE          // Enables playlist-caching (infos: https://forum.espuino.de/t/neues-feature-cached-playlist/515)
     //#define PAUSE_WHEN_RFID_REMOVED       // Playback starts when card is applied and pauses automatically, when card is removed (https://forum.espuino.de/t/neues-feature-pausieren-wenn-rfid-karte-entfernt-wurde/541)
-    //#define SAVE_PLAYPOS_BEFORE_SHUTDOWN  // When playback is active and mode audiobook was selected, last play-position is saved automatically when shutdown is initiated
-    //#define SAVE_PLAYPOS_WHEN_RFID_CHANGE // When playback is active and mode audiobook was selected, last play-position is saved automatically for old playlist when new RFID-tag is applied
+    #define SAVE_PLAYPOS_BEFORE_SHUTDOWN  // When playback is active and mode audiobook was selected, last play-position is saved automatically when shutdown is initiated
+    #define SAVE_PLAYPOS_WHEN_RFID_CHANGE // When playback is active and mode audiobook was selected, last play-position is saved automatically for old playlist when new RFID-tag is applied
 
 
     //################## select SD card mode #############################
@@ -110,26 +110,26 @@
         If you don't want to assign an action or you don't use a given button: CMD_NOTHING has to be set
     */
     // *****BUTTON*****        *****ACTION*****
-    #define BUTTON_0_SHORT    CMD_NEXTTRACK
-    #define BUTTON_1_SHORT    CMD_PREVTRACK
+    #define BUTTON_0_SHORT    CMD_VOLUMEUP
+    #define BUTTON_1_SHORT    CMD_VOLUMEDOWN
     #define BUTTON_2_SHORT    CMD_PLAYPAUSE
-    #define BUTTON_3_SHORT    CMD_MEASUREBATTERY
+    #define BUTTON_3_SHORT    CMD_NOTHING
     #define BUTTON_4_SHORT    CMD_SEEK_BACKWARDS
     #define BUTTON_5_SHORT    CMD_SEEK_FORWARDS
 
-    #define BUTTON_0_LONG     CMD_LASTTRACK
-    #define BUTTON_1_LONG     CMD_FIRSTTRACK
+    #define BUTTON_0_LONG     CMD_NEXTTRACK
+    #define BUTTON_1_LONG     CMD_PREVTRACK
     #define BUTTON_2_LONG     CMD_TOGGLE_BLUETOOTH_MODE
     #define BUTTON_3_LONG     CMD_SLEEPMODE
     #define BUTTON_4_LONG     CMD_NOTHING
     #define BUTTON_5_LONG     CMD_NOTHING
 
-    #define BUTTON_MULTI_01   CMD_NOTHING   //CMD_TOGGLE_WIFI_STATUS (disabled now to prevent children from unwanted WiFi-disable)
+    #define BUTTON_MULTI_01   CMD_MEASUREBATTERY
     #define BUTTON_MULTI_02   CMD_ENABLE_FTP_SERVER
     #define BUTTON_MULTI_03   CMD_NOTHING
     #define BUTTON_MULTI_04   CMD_NOTHING
     #define BUTTON_MULTI_05   CMD_NOTHING
-    #define BUTTON_MULTI_12   CMD_TELL_IP_ADDRESS
+    #define BUTTON_MULTI_12   CMD_NOTHING
     #define BUTTON_MULTI_13   CMD_NOTHING
     #define BUTTON_MULTI_14   CMD_NOTHING
     #define BUTTON_MULTI_15   CMD_NOTHING
@@ -155,7 +155,7 @@
 
     // Buttons (better leave unchanged if in doubts :-))
     constexpr uint8_t buttonDebounceInterval = 50;                // Interval in ms to software-debounce buttons
-    constexpr uint16_t intervalToLongPress = 700;                 // Interval in ms to distinguish between short and long press of previous/next-button
+    constexpr uint16_t intervalToLongPress = 1000;                 // Interval in ms to distinguish between short and long press of previous/next-button
 
     // RFID-RC522
     #define RFID_SCAN_INTERVAL 100                      // Interval-time in ms (how often is RFID read?)

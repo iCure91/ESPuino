@@ -15,7 +15,7 @@
 #ifdef NEOPIXEL_ENABLE
 	#include <FastLED.h>
 
-	#define LED_INITIAL_BRIGHTNESS 50u
+	#define LED_INITIAL_BRIGHTNESS 255u
 	#define LED_INITIAL_NIGHT_BRIGHTNESS 0u
 
 	#define LED_INDICATOR_SET(indicator) ((Led_Indicators) |= (1u << ((uint8_t)indicator)))
@@ -76,9 +76,9 @@ void Led_Init(void) {
 		// Get initial LED-brightness from NVS
 		uint8_t nvsILedBrightness = gPrefsSettings.getUChar("iLedBrightness", 0);
 		if (nvsILedBrightness) {
-			Led_InitialBrightness = nvsILedBrightness;
-			Led_Brightness = nvsILedBrightness;
-			Log_Printf(LOGLEVEL_INFO, initialBrightnessfromNvs, nvsILedBrightness);
+			Led_InitialBrightness = Led_InitialBrightness;
+			Led_Brightness = Led_InitialBrightness;
+			Log_Printf(LOGLEVEL_INFO, initialBrightnessfromNvs, Led_InitialBrightness);
 		} else {
 			gPrefsSettings.putUChar("iLedBrightness", Led_InitialBrightness);
 			Log_Println(wroteInitialBrightnessToNvs, LOGLEVEL_ERROR);
@@ -87,8 +87,8 @@ void Led_Init(void) {
 		// Get night LED-brightness from NVS
 		uint8_t nvsNLedBrightness = gPrefsSettings.getUChar("nLedBrightness", 255);
 		if (nvsNLedBrightness != 255) {
-			Led_NightBrightness = nvsNLedBrightness;
-			Log_Printf(LOGLEVEL_INFO, restoredInitialBrightnessForNmFromNvs, nvsNLedBrightness);
+			Led_NightBrightness = Led_NightBrightness;
+			Log_Printf(LOGLEVEL_INFO, restoredInitialBrightnessForNmFromNvs, Led_NightBrightness);
 		} else {
 			gPrefsSettings.putUChar("nLedBrightness", Led_NightBrightness);
 			Log_Println(wroteNmBrightnessToNvs, LOGLEVEL_ERROR);

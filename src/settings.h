@@ -60,9 +60,9 @@
 
 
     //################## select RFID reader ##############################
-    #define RFID_READER_TYPE_MFRC522_SPI    // use MFRC522 via SPI
+    //#define RFID_READER_TYPE_MFRC522_SPI    // use MFRC522 via SPI
     //#define RFID_READER_TYPE_MFRC522_I2C  // use MFRC522 via I2C
-    //#define RFID_READER_TYPE_PN5180       // use PN5180 via SPI
+    #define RFID_READER_TYPE_PN5180       // use PN5180 via SPI
 
     #ifdef RFID_READER_TYPE_MFRC522_I2C
         #define MFRC522_ADDR 0x28           // default I2C-address of MFRC522
@@ -119,8 +119,8 @@
 
     #define BUTTON_0_LONG     CMD_NEXTTRACK
     #define BUTTON_1_LONG     CMD_PREVTRACK
-    #define BUTTON_2_LONG     CMD_TOGGLE_BLUETOOTH_MODE
-    #define BUTTON_3_LONG     CMD_SLEEPMODE
+    #define BUTTON_2_LONG     CMD_SLEEPMODE
+    #define BUTTON_3_LONG     CMD_NOTHING
     #define BUTTON_4_LONG     CMD_NOTHING
     #define BUTTON_5_LONG     CMD_NOTHING
 
@@ -129,7 +129,7 @@
     #define BUTTON_MULTI_03   CMD_NOTHING
     #define BUTTON_MULTI_04   CMD_NOTHING
     #define BUTTON_MULTI_05   CMD_NOTHING
-    #define BUTTON_MULTI_12   CMD_NOTHING
+    #define BUTTON_MULTI_12   CMD_TOGGLE_BLUETOOTH_MODE
     #define BUTTON_MULTI_13   CMD_NOTHING
     #define BUTTON_MULTI_14   CMD_NOTHING
     #define BUTTON_MULTI_15   CMD_NOTHING
@@ -180,7 +180,7 @@
     //#################### Settings for optional Modules##############################
     // (optinal) Neopixel
     #ifdef NEOPIXEL_ENABLE
-        #define NUM_LEDS                    24          // number of LEDs
+        #define NUM_LEDS                    16          // number of LEDs
         #define CHIPSET                     WS2812B     // type of Neopixel
         #define COLOR_ORDER                 GRB
     #endif

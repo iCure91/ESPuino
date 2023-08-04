@@ -15,8 +15,8 @@
 #ifdef NEOPIXEL_ENABLE
 	#include <FastLED.h>
 
-	#define LED_INITIAL_BRIGHTNESS 16u
-	#define LED_INITIAL_NIGHT_BRIGHTNESS 2u
+	#define LED_INITIAL_BRIGHTNESS 50u
+	#define LED_INITIAL_NIGHT_BRIGHTNESS 0u
 
 	#define LED_INDICATOR_SET(indicator) ((Led_Indicators) |= (1u << ((uint8_t)indicator)))
 	#define LED_INDICATOR_IS_SET(indicator) (((Led_Indicators) & (1u << ((uint8_t)indicator))) > 0u)

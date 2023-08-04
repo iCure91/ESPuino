@@ -22,9 +22,9 @@
 	static PubSubClient Mqtt_PubSubClient(Mqtt_WifiClient);
 	// Please note: all of them are defaults that can be changed later via GUI
 	String gMqttClientId = DEVICE_HOSTNAME; // ClientId for the MQTT-server, must be server wide unique (if not found in NVS this one will be taken)
-	String gMqttServer = "192.168.2.43";    // IP-address of MQTT-server (if not found in NVS this one will be taken)
-	String gMqttUser = "mqtt-user";         // MQTT-user
-	String gMqttPassword = "mqtt-password"; // MQTT-password
+	String gMqttServer = "192.168.13.5";    // IP-address of MQTT-server (if not found in NVS this one will be taken)
+	String gMqttUser = "DVES_USER";         // MQTT-user
+	String gMqttPassword = ""; // MQTT-password
 	uint16_t gMqttPort = 1883;              // MQTT-Port
 #endif
 

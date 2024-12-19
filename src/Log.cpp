@@ -1,14 +1,31 @@
 #include <Arduino.h>
 #include "settings.h"
+
 #include "Log.h"
-#include "MemX.h"
+
 #include "LogRingBuffer.h"
+#include "MemX.h"
 
 static LogRingBuffer *Log_RingBuffer = NULL;
 
-void Log_Init(void){
+void Log_Init(void) {
 	Serial.begin(115200);
 	Log_RingBuffer = new LogRingBuffer();
+}
+
+String getLoglevel(const uint8_t logLevel) {
+	switch (logLevel) {
+		case LOGLEVEL_ERROR:
+			return "E";
+		case LOGLEVEL_NOTICE:
+			return "N";
+		case LOGLEVEL_INFO:
+			return "I";
+		case LOGLEVEL_DEBUG:
+			return "D";
+		default:
+			return " ";
+	}
 }
 
 /* Wrapper-function for serial-logging (with newline)
@@ -19,11 +36,10 @@ void Log_Init(void){
 void Log_Println(const char *_logBuffer, const uint8_t _minLogLevel) {
 	if (SERIAL_LOGLEVEL >= _minLogLevel) {
 		uint32_t ctime = millis();
-		Serial.printf("[ %u ]  ", ctime);
+		const String sLogLevel = getLoglevel(_minLogLevel);
+		Serial.printf("%s [%" PRIu32 "] ", sLogLevel.c_str(), ctime);
 		Serial.println(_logBuffer);
-		Log_RingBuffer->print("[ ");
-		Log_RingBuffer->print(ctime);
-		Log_RingBuffer->print(" ]  ");
+		Log_RingBuffer->printf("%s [%" PRIu32 "] ", sLogLevel.c_str(), ctime);
 		Log_RingBuffer->println(_logBuffer);
 	}
 }
@@ -33,21 +49,19 @@ void Log_Print(const char *_logBuffer, const uint8_t _minLogLevel, bool printTim
 	if (SERIAL_LOGLEVEL >= _minLogLevel) {
 		if (printTimestamp) {
 			uint32_t ctime = millis();
-			Serial.printf("[ %u ]  ", ctime);
+			const String sLogLevel = getLoglevel(_minLogLevel);
+			Serial.printf("%s [%" PRIu32 "] ", sLogLevel.c_str(), ctime);
 			Serial.print(_logBuffer);
-			Log_RingBuffer->print("[ ");
-			Log_RingBuffer->print(ctime);
-			Log_RingBuffer->print(" ]  ");
+			Log_RingBuffer->printf("%s [%" PRIu32 "] ", sLogLevel.c_str(), ctime);
 		} else {
 			Serial.print(_logBuffer);
-
 		}
 		Log_RingBuffer->print(_logBuffer);
 	}
 }
 
 int Log_Printf(const uint8_t _minLogLevel, const char *format, ...) {
-	char loc_buf[201];	// Allow a maximum buffer of 200 characters in a single log message
+	char loc_buf[201]; // Allow a maximum buffer of 200 characters in a single log message
 
 	int len;
 	va_list arg;
@@ -65,7 +79,7 @@ int Log_Printf(const uint8_t _minLogLevel, const char *format, ...) {
 
 	va_end(arg);
 
-	return std::min<int>(len, sizeof(loc_buf)-1);
+	return std::min<int>(len, sizeof(loc_buf) - 1);
 }
 
 String Log_GetRingBuffer(void) {

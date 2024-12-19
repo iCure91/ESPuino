@@ -1,3 +1,5 @@
+// clang-format off
+
 #ifndef __ESPUINO_SETTINGS_H__
     	#define __ESPUINO_SETTINGS_H__
         #include "Arduino.h"
@@ -10,21 +12,23 @@
 
 	//################## HARDWARE-PLATFORM ###############################
 	/* Make sure to also edit the configfile, that is specific for your platform.
-	If in doubts (your develboard is not listed) use HAL 1
-	1: Wemos Lolin32                        => settings-lolin32.h
-	2: ESP32-A1S Audiokit                   => settings-espa1s.h
-	3: Wemos Lolin D32                      => settings-lolin_D32.h
+	If in doubts (your develboard is not listed) use HAL 7
+
+	!!!Only ESP32 with PSRAM are supported!!!
+
+	1: Wemos Lolin32                        => REMOVED (because of missing PSRAM)
+	2: ESP32-A1S Audiokit                   => REMOVED (because of stale development, lack of users and lack of GPIOs)
+	3: Wemos Lolin D32                      => REMOVED (because of missing PSRAM)
 	4: Wemos Lolin D32 pro                  => settings-lolin_D32_pro.h
 	5: Lilygo T8 (V1.7)                     => settings-ttgo_t8.h
 	6: ESPuino complete                     => settings-complete.h
 	7: Lolin D32 pro SDMMC Port-Expander    => settings-lolin_d32_pro_sdmmc_pe.h
-	8: AZDelivery ESP32 NodeMCU             => settings-azdelivery_sdmmc.h
-	9: Lolin D32 SDMMC Port-Expander        => settings-lolin_d32_sdmmc_pe.h
+	8: AZDelivery ESP32 NodeMCU             => REMOVED (because of missing PSRAM)
+	9: Lolin D32 SDMMC Port-Expander        => REMOVED (because of missing PSRAM)
 	99: custom                              => settings-custom.h
-	more to come...
 	*/
-	#ifndef HAL             // Will be set by platformio.ini. If using Arduino-IDE you have to set HAL according your needs!
-		#define HAL 1       // HAL 1 = LoLin32, 2 = ESP32-A1S-AudioKit, 3 = Lolin D32, 4 = Lolin D32 pro; ... 99 = custom
+	#ifndef HAL             // Will be set by platformio.ini. There's no need to adjust this manually right here
+		#define HAL 7
 	#endif
 
 
@@ -50,10 +54,7 @@
 	#define BLUETOOTH_ENABLE                // If enabled and bluetooth-mode is active, you can stream to your ESPuino or to a headset via bluetooth (a2dp-sink & a2dp-source). Note: This feature consumes a lot of resources and the available flash/ram might not be sufficient. 
 	//#define IR_CONTROL_ENABLE             // Enables remote control (https://forum.espuino.de/t/neues-feature-fernsteuerung-per-infrarot-fernbedienung/265)
 	//#define PAUSE_WHEN_RFID_REMOVED       // Playback starts when card is applied and pauses automatically, when card is removed (https://forum.espuino.de/t/neues-feature-pausieren-wenn-rfid-karte-entfernt-wurde/541)
-	//#define PAUSE_ON_MIN_VOLUME           // When playback is active and volume is changed to zero, playback is paused automatically. Playback is continued if volume reaches 1. (https://forum.espuino.de/t/neues-feature-pausieren-wenn-rfid-karte-entfernt-wurde/541)
 	//#define DONT_ACCEPT_SAME_RFID_TWICE   // RFID-reader doesn't accept the same RFID-tag twice in a row (unless it's a modification-card or RFID-tag is unknown in NVS). Flag will be ignored silently if PAUSE_WHEN_RFID_REMOVED is active. (https://forum.espuino.de/t/neues-feature-dont-accept-same-rfid-twice/1247)
-	//#define SAVE_PLAYPOS_BEFORE_SHUTDOWN  // When playback is active and mode audiobook was selected, last play-position is saved automatically when shutdown is initiated
-	//#define SAVE_PLAYPOS_WHEN_RFID_CHANGE // When playback is active and mode audiobook was selected, last play-position is saved automatically for old playlist when new RFID-tag is applied
 	//#define HALLEFFECT_SENSOR_ENABLE      // Support for hallsensor. For fine-tuning please adjust HallEffectSensor.h Please note: only user-support provided (https://forum.espuino.de/t/magnetische-hockey-tags/1449/35)
 
 	//################## set PAUSE_WHEN_RFID_REMOVED behaviour #############################
@@ -64,6 +65,7 @@
 	//################## select SD card mode #############################
 	#define SD_MMC_1BIT_MODE              // run SD card in SD-MMC 1Bit mode (using GPIOs 15 + 14 + 2 is mandatory!)
 	//#define SINGLE_SPI_ENABLE             // If only one SPI-instance should be used instead of two (not yet working!)
+	//#define NO_SDCARD                     // enable to start without any SD card, e.g. for a webplayer only. SD card Settings above will be ignored
 
 
 	//################## select RFID reader ##############################
@@ -76,7 +78,7 @@
 	#endif
 
 	#ifdef RFID_READER_TYPE_PN5180
-		//#define PN5180_ENABLE_LPCD        // Wakes up ESPuino if RFID-tag was applied while deepsleep is active. Only ISO-14443-tags are supported for wakeup!
+		//#define PN5180_ENABLE_LPCD        // Wakes up ESPuino if RFID-tag was applied while deepsleep is active.
 	#endif
 
 	#if defined(RFID_READER_TYPE_MFRC522_I2C) || defined(RFID_READER_TYPE_MFRC522_SPI)
@@ -165,7 +167,7 @@
 	// Buttons (better leave unchanged if in doubts :-))
 	constexpr uint8_t buttonDebounceInterval = 50;                // Interval in ms to software-debounce buttons
 	constexpr uint16_t intervalToLongPress = 700;                 // Interval in ms to distinguish between short and long press of buttons
-	
+
 	// Buttons active state: Default 0 for active LOW, 1 for active HIGH e.g. for TTP223 Capacitive Touch Switch Button (FinnBox)
 	#define BUTTON_0_ACTIVE_STATE 0
 	#define BUTTON_1_ACTIVE_STATE 0
@@ -173,7 +175,7 @@
 	#define BUTTON_3_ACTIVE_STATE 0
 	#define BUTTON_4_ACTIVE_STATE 0
 	#define BUTTON_5_ACTIVE_STATE 0
-	
+
 	//#define CONTROLS_LOCKED_BY_DEFAULT			// If set the controls are locked at boot
 	#define INCLUDE_ROTARY_IN_CONTROLS_LOCK			// If set the rotary encoder is locked if controls are locked
 
@@ -193,7 +195,7 @@
 	// see list of valid timezones: https://github.com/nayarsystems/posix_tz_db/blob/master/zones.csv
 	// example for Europe/Berlin:	"CET-1CEST,M3.5.0,M10.5.0/3"
 	// example for America/Toronto:	"EST5EDT,M3.2.0,M11.1.0"
-	constexpr const char timeZone[] = "CET-1CEST,M3.5.0,M10.5.0/3"; // Europe/Berlin 
+	constexpr const char timeZone[] = "CET-1CEST,M3.5.0,M10.5.0/3"; // Europe/Berlin
 
 	// ESPuino will create a WiFi if joing existing WiFi was not possible. Name and password can be configured here.
 	constexpr const char accessPointNetworkSSID[] = "ESPuino";     // Access-point's SSID
@@ -218,7 +220,7 @@
 		#define PROGRESS_HUE_START		85          	// Start and end hue of mulitple-LED progress indicator. Hue ranges from basically 0 - 255, but you can also set numbers outside this range to get the desired effect (e.g. 85-215 will go from green to purple via blue, 341-215 start and end at exactly the same color but go from green to purple via yellow and red)
 		#define PROGRESS_HUE_END		-1
 		#define DIMMABLE_STATES			50		// Number of dimmed values between two full LEDs (https://forum.espuino.de/t/led-verbesserungen-rework/1739)
-		//#define LED_OFFSET                		0           	// shifts the starting LED in the original direction of the neopixel ring
+		//#define LED_OFFSET 0 // shifts the starting LED in the original direction of the neopixel ring
 	#endif
 
 	#if defined(MEASURE_BATTERY_VOLTAGE) || defined(MEASURE_BATTERY_MAX17055)
@@ -293,13 +295,7 @@
 	#endif
 
 	// !!! MAKE SURE TO EDIT PLATFORM SPECIFIC settings-****.h !!!
-	#if (HAL == 1)
-		#include "settings-lolin32.h"                       // Contains all user-relevant settings for Wemos Lolin32
-	#elif (HAL == 2)
-		#include "settings-espa1s.h"                        // Contains all user-relevant settings for ESP32-A1S Audiokit
-	#elif (HAL == 3)
-		#include "settings-lolin_d32.h"                     // Contains all user-relevant settings for Wemos Lolin D32
-	#elif (HAL == 4)
+	#if (HAL == 4)
 		#include "settings-lolin_d32_pro.h"                 // Contains all user-relevant settings for Wemos Lolin D32 pro
 	#elif (HAL == 5)
 		#include "settings-ttgo_t8.h"                       // Contains all user-relevant settings for Lilygo TTGO T8 1.7
@@ -307,14 +303,9 @@
 		#include "settings-complete.h"                      // Contains all user-relevant settings for ESPuino complete
 	#elif (HAL == 7)
 		#include "settings-lolin_d32_pro_sdmmc_pe.h"        // Pre-configured settings for ESPuino Lolin D32 pro with SDMMC + port-expander (https://forum.espuino.de/t/espuino-minid32pro-lolin-d32-pro-mit-sd-mmc-und-port-expander-smd/866)
-	#elif (HAL == 8)
-		#include "settings-azdelivery_sdmmc.h"              // Pre-configured settings for AZ Delivery ESP32 NodeMCU / Devkit C (https://forum.espuino.de/t/az-delivery-esp32-nodemcu-devkit-c-mit-sd-mmc-und-pn5180-als-rfid-leser/634)
-	#elif (HAL == 9)
-		#include "settings-lolin_d32_sdmmc_pe.h"            // Pre-configured settings for Lolin D32 (non-pro) with SDMMC + port-expander (https://forum.espuino.de/t/espuino-minid32-pro-lolin-d32-pro-mit-sd-mmc-und-port-expander-smd/866)
 	#elif (HAL == 99)
 		#include "settings-custom.h"                        // Contains all user-relevant settings custom-board
 	#endif
 
-	//#define ENABLE_ESPUINO_DEBUG                            // Needs modification of platformio.ini (https://forum.espuino.de/t/rfid-mit-oder-ohne-task/353/21); better don't enable unless you know what you're doing :-)
 	#endif //settings_override
 #endif
